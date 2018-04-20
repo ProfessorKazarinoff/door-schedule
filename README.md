@@ -1,4 +1,4 @@
-# door_schedule
+# door-schedule
 
 A set of scripts to produce a teacher's door schedule from the PCC class schedule
 

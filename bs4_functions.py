@@ -149,7 +149,7 @@ def get_instrSect(row_lst):
     one_instr_sec.campus = get_campus(row_lst)
     one_instr_sec.CRN = get_CRN(row_lst)
     one_instr_sec.building = get_building(row_lst)
-    one_instr_sec.room_num = get_room_num(row_lst)
+    one_instr_sec.room_number = get_room_num(row_lst)
     one_instr_sec.start_time = get_start_time(row_lst)
     one_instr_sec.end_time= get_end_time(row_lst)
     one_instr_sec.day = get_days(row_lst)
@@ -167,7 +167,7 @@ class InstrSect():
         self.day=''
         self.start_time=''
         self.end_time=''
-        self.room_num=''
+        self.room_number= ''
         self.instructor=''
         self.campus=''
         self.course_name=''
@@ -179,6 +179,9 @@ class InstrSect():
         self.tuition=''
         self.fees=''
         self.cancelled=False
+        self.year=''
+        self.quarter=''
+
 
 def get_instr_sec_lst(url):
     """

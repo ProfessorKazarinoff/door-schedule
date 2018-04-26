@@ -1,9 +1,11 @@
 
 # coding: utf-8
 
+import re
 import requests
 from bs4 import BeautifulSoup
 from pprint import pprint
+import re
 import bs4
 
 def get_course_num(soup):
@@ -93,9 +95,20 @@ def get_days(row_lst):
     """
     input: row_lst, a list of bs4Tag objects with 2 elements, one data-row and one info-row
     """
+    regexes = [
+        # your regexes here
+        re.compile('M'),
+        re.compile('Tu'),
+        re.compile('W'),
+        re.compile('Th'),
+        re.compile('F'),
+        re.compile('Sa'),
+        re.compile('Su')
+    ]
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
         if len(td.text.strip())<3 and td.text.strip().isalpha:
+            #re.findall('[A-Z][^A-Z]*', 'TheLongAndWindingRoad') will return ['The','Long','And','Winding','Road']
             return td.text.strip()
 
 def get_start_date(row_lst):

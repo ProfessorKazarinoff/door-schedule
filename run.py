@@ -4,7 +4,8 @@
 Main script will webscrape PCC class schedule course pages for instructors, rooms and times.
 Using the class schedule webpage data, schedules for each instructor is created in the output directory
 """
-
+import pickle
+import shutil
 from class_page_iter_tools import get_dept_urls, get_class_url_lst
 from bs4_functions import get_instr_sec_lst
 from schedule_functions import instructorObj
@@ -41,7 +42,11 @@ def main():
         inst_Obj.departments = list(set([x.department for x in instr_section_list if x.instructor == instructor]))
         instr__obj_list.append(inst_Obj)
 
-    instr__obj_list[5].print_schedule()
+    #empty the out/ directory and all of its contents
+    if os.path.exists(os.path.join(os.getcwd(), 'out')):
+        shutil.rmtree(os.path.join(os.getcwd(), 'out'))
+
+    #instr__obj_list[5].print_schedule()
 
     for instr in instr__obj_list:
         inst_name = "_".join([x.strip() for x in instr.name.split(" ")[:]])
@@ -61,7 +66,10 @@ def main():
             os.mkdir('out')
         wb.save(wkbk_path)
 
-        
+    picklepath = os.path.join(os.getcwd(),'out','data.pkl')
+    output = open(picklepath, 'wb')
+    pickle.dump(instr__obj_list, output)
+    output.close()
 
 
 if __name__ == "__main__":

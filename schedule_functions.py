@@ -49,10 +49,12 @@ def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='
         col = day_dict[day]
     else:
         col = day_dict['Su']
+        color = "FF9999"
 
     if (not start_time) or (not end_time):
         start_time='8:00 AM'
         end_time='9:00 AM'
+        color = "FF9999"
 
     lead_num = get_24h_dec_time(start_time)
     above_7 = lead_num - 7

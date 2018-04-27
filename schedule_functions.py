@@ -52,8 +52,8 @@ def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='
         color = "FF9999"
 
     if (not start_time) or (not end_time):
-        start_time='8:00 AM'
-        end_time='9:00 AM'
+        start_time='7:00 AM'
+        end_time='8:00 AM'
         color = "FF9999"
 
     lead_num = get_24h_dec_time(start_time)
@@ -61,6 +61,9 @@ def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='
     row = 7 + above_7*2
 
     lead_num = get_24h_dec_time(end_time)
+    # if the end time is past 9pm (21 o'clock) , set the end time to 9pm
+    if lead_num > 21.5:
+        lead_num = 21.5
     above_7 = lead_num - 7
     merge_end = 7 + above_7*2 - 1
     

@@ -259,6 +259,7 @@ class InstrSect():
         self.online = False
         self.year = ''
         self.quarter = ''
+        self.evening = False
 
 
 def get_instr_sec_lst(url):

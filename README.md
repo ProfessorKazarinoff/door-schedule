@@ -28,6 +28,6 @@ $ conda activate schedule
 4. Look for the ```.xlsx``` files in the ```output``` directory
 
 ```bash
-cd out
+cd output
 ls
 ```

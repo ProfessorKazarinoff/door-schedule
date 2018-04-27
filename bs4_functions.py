@@ -32,6 +32,20 @@ def get_dept(soup):
     course_num = soup.h2.text.split(" ")[0]
     return ''.join([i for i in course_num if not i.isdigit()])
 
+def get_year(soup):
+    """
+    function pulls the year out of a PCC Class Scehdule Course Page. Year is in breadcrumbs at the top of the page
+    input: bs4 Soup Object, from a PCC Class Schedule Course Page
+    output: str, string that is the course year, Example: '2018'
+    """
+    nav_obj_lst = soup.findAll('nav', attrs={'id': ['breadcrumbs']})
+    if nav_obj_lst:
+        if nav_obj_lst[0].text:
+            year_with_colon = "".join([x for x in nav_obj_lst[0].text.split(" ") if any(c.isdigit() for c in x)])
+            if year_with_colon:
+                year = "".join([x for x in year_with_colon if x.isdigit()])
+                return year
+
 
 def get_CRN(row_lst):
     """
@@ -193,9 +207,14 @@ def get_instructor(row_lst):
     td_lst = row_lst[1].find_all("td")
     for td in td_lst:
         # print(td.text.strip())
-        if "Instructor: " in td.text.strip():
-            instructor = td.text.strip().rstrip().lstrip().split('\n')[0].strip('Instructor: ')
-            return instructor
+        if td.text:
+            if "Instructor: " in td.text.strip():
+                instructor_long = td.text.strip()
+                instructor_line = instructor_long.split("\n")[0]
+                instructor_name = instructor_line.split("Instructor: ")[1]
+                instructor_name_stripped = instructor_name.strip()
+
+                return instructor_name_stripped
 
 
 def get_instrSect(row_lst):
@@ -258,6 +277,8 @@ def get_instr_sec_lst(url):
     course_num = get_course_num(soup)
     course_name = get_course_name(soup)
     dept = get_dept(soup)
+    #quarter = get_quarter(soup)
+    year = get_year(soup)
 
     rows = soup.findAll('tr', attrs={'class': ['data-row ', 'info-row ', 'data-row alt-color', 'info-row alt-color']})
     inst_sec_lst = []
@@ -268,6 +289,7 @@ def get_instr_sec_lst(url):
         instr_sec.course_number = course_num
         instr_sec.course_name = course_name
         instr_sec.department = dept
+        instr_sec.year = year
         inst_sec_lst.append(instr_sec)
 
     return inst_sec_lst

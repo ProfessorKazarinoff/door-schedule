@@ -44,7 +44,7 @@ def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='
         building_and_room ="Bld Room#"
 
     #day_dict = {'M':2,'Tu':3,'W':4,'MW': 4, 'Th':5,'F':6,'Sa':7,'Su':8}
-    day_dict = {'Monday':2,'Tuesday':3,'Wednesday':4, 'Thursday':5,'Friday':6,'Saturday':7,'Sunday':8, 'Su':8}
+    day_dict = {'Monday':2,'Tuesday':3,'Wednesday':4, 'Thursday':5,'Friday':6,'Saturday':8,'Sunday':8, 'Su':8}
     if day in day_dict.keys():
         col = day_dict[day]
     else:

@@ -16,8 +16,11 @@ import os
 
 
 def main():
+    main_url = main_url='https://www.pcc.edu/schedule/default.cfm?fa=dspTopic&thisTerm=200701&type=Credit'
+    dept_lst = ['Civil and Mechanical Engineering Technology', 'Engineering', 'Electronic Engineering Technology']
+
     # get a list of the department page urls
-    dept_url_lst = get_dept_urls()
+    dept_url_lst = get_dept_urls(main_url, dept_lst)
 
     # get a long list of all the class page urls
     class_url_lst = get_class_url_lst(dept_url_lst)
@@ -27,10 +30,10 @@ def main():
     for url in class_url_lst:
         instr_section_list.extend(get_instr_sec_lst(url))
 
-    # make a unique set of instructor names
+    # extract a unique set of instructor names into a set
     instructor_set = set([x.instructor for x in instr_section_list])
 
-    # a list of instructor Objects, each instructor has a list of class schedule objects
+    # form a list of instructor Objects, each instructor has a list of class schedule objects
     instr_obj_list = []
     for instructor in list(instructor_set):
         # print(instructor)
@@ -39,6 +42,8 @@ def main():
         # print(type(inst_Obj))
         inst_Obj.classes = [x for x in instr_section_list if x.instructor == instructor]
         inst_Obj.departments = list(set([x.department for x in instr_section_list if x.instructor == instructor]))
+        inst_Obj.year = "".join(list(set([x.year for x in instr_section_list if x.instructor == instructor])))
+
         instr_obj_list.append(inst_Obj)
 
     # empty the out/ directory and all of its contents
@@ -48,15 +53,20 @@ def main():
     # instr__obj_list[5].print_schedule()
 
     for instr in instr_obj_list:
-        inst_name = "_".join([x.strip() for x in instr.name.split(" ")[:]])
-        xlsx_file_name = "".join([inst_name, instr.quarter, instr.year, '.xlsx'])
+
+        #Build the name of the excel file from the instructor object's name attribute
+        inst_name_no_double_space = ' '.join(instr.name.split())
+        inst_name = "_".join([x.strip() for x in inst_name_no_double_space.split(" ")[:]])
+        xlsx_file_name = "".join([inst_name, instr.quarter, '.xlsx']) #can put instr.year into the list to add the year to the excel file name
         template_path = os.path.join(os.getcwd(), 'templates', 'schedule_template.xlsx')
+
         wb = load_workbook(template_path)
         ws = wb['Sheet1']
 
         ws = insert_gen_info(ws, instr.quarter, instr.year, instr.name, " ".join(instr.departments), instr.email,
                              instr.phone)
 
+        # iterate over the class list for each instructor, then if there are muiltiple days in one class, iterate over those days
         for sect in instr.classes:
             if sect.days_list:
                 for day in sect.days_list:
@@ -69,6 +79,7 @@ def main():
             os.mkdir('out')
         wb.save(wkbk_path)
 
+    # save the list of instrutor objects with pickle so that it can be unpickled and used later if needed
     picklepath = os.path.join(os.getcwd(), 'out', 'data.pkl')
     output = open(picklepath, 'wb')
     pickle.dump(instr_obj_list, output)

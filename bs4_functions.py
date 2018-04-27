@@ -1,4 +1,3 @@
-
 # coding: utf-8
 
 import re
@@ -8,6 +7,7 @@ from pprint import pprint
 import re
 import bs4
 
+
 def get_course_num(soup):
     """
     input: bs4 Soup Object, from a PCC Class Schedule Course Page
@@ -15,12 +15,14 @@ def get_course_num(soup):
     """
     return soup.h2.text.split(" ")[0]
 
+
 def get_course_name(soup):
     """
     input: bs4 Soup Object, from a PCC Class Schedule Course Page
     output: str, string that is the course name, Example: 'Machine Design'
     """
     return " ".join(soup.h2.text.split(" ")[1:]).strip()
+
 
 def get_dept(soup):
     """
@@ -30,11 +32,26 @@ def get_dept(soup):
     course_num = soup.h2.text.split(" ")[0]
     return ''.join([i for i in course_num if not i.isdigit()])
 
+
 def get_CRN(row_lst):
     """
     input: row_lst, a list of bs4Tag objects with 2 elements, one data-row and one info-row
     """
     return row_lst[0].td.text
+
+
+def get_online(row_lst):  # function needs work. Does note work correctly
+    """
+    input: row_lst, a list of bs4Tag objects with 2 elements, one data-row and one info-row
+    """
+    td_lst = row_lst[0].find_all("td")
+    for td in td_lst:
+        if td.text:
+            if 'Web' in td.text.strip():
+                return True
+            else:
+                return False
+
 
 def get_campus(row_lst):
     """
@@ -42,10 +59,11 @@ def get_campus(row_lst):
     """
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if " / " in td.text.strip():
             campus = td.text.strip().split(" ")[0]
             return campus
+
 
 def get_building(row_lst):
     """
@@ -53,10 +71,11 @@ def get_building(row_lst):
     """
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if " / " in td.text.strip():
             building = td.text.strip().split(" / ")[1]
             return building.strip()
+
 
 def get_room_num(row_lst):
     """
@@ -64,10 +83,11 @@ def get_room_num(row_lst):
     """
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if " / " in td.text.strip():
             room = td.text.strip().split(" / ")[2]
             return room.strip()
+
 
 def get_start_time(row_lst):
     """
@@ -75,10 +95,11 @@ def get_start_time(row_lst):
     """
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if ":" in td.text.strip():
             start_time = td.text.strip().split("-")[0]
             return start_time.strip()
+
 
 def get_end_time(row_lst):
     """
@@ -86,13 +107,14 @@ def get_end_time(row_lst):
     """
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if ":" in td.text.strip():
             end_time = td.text.strip().split("-")[1]
             return end_time.strip()
 
+
 def get_days_list(row_lst):
-    day_lst =[]
+    day_lst = []
     for row in row_lst:
         if row.find('acronym'):
             inputTag = row.find('acronym')
@@ -100,6 +122,7 @@ def get_days_list(row_lst):
             day_lst = [x for x in output.split(' ')[:] if x]
     if day_lst:
         return day_lst
+
 
 def get_days(row_lst):
     """
@@ -119,13 +142,13 @@ def get_days(row_lst):
     # output = inputTag['title']
     # print(output)
     # day_lst_full =[x for x in output.split(' ')[:] if x]
-    
-    
+
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-        if len(td.text.strip())<3 and td.text.strip().isalpha:
-            #re.findall('[A-Z][^A-Z]*', 'TheLongAndWindingRoad') will return ['The','Long','And','Winding','Road']
+        if len(td.text.strip()) < 3 and td.text.strip().isalpha:
+            # re.findall('[A-Z][^A-Z]*', 'TheLongAndWindingRoad') will return ['The','Long','And','Winding','Road']
             return td.text.strip()
+
 
 def get_start_date(row_lst):
     """
@@ -133,10 +156,11 @@ def get_start_date(row_lst):
     """
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if " thru " in td.text.strip():
             start_date = td.text.strip().split(" thru ")[0]
             return start_date.strip()
+
 
 def get_end_date(row_lst):
     """
@@ -144,23 +168,23 @@ def get_end_date(row_lst):
     """
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if " thru " in td.text.strip():
             end_date = td.text.strip().split(" thru ")[1]
             return end_date.strip()
+
 
 def get_cancelled(row_lst):
     ### Function needs work. Does not quite work right
     """
     input: row_lst, a list of bs4Tag objects with 2 elements, one data-row and one info-row
     """
-    td_lst = row_lst[1].find_all("td")
-    for td in td_lst:
-    #print(td.text.strip())
-        if "Canceled!" in td.text.strip():
+    for row in row_lst:
+        if row.findAll('span', attrs={'class': ['Canceled']}):
             return True
         else:
             return False
+
 
 def get_instructor(row_lst):
     """
@@ -168,10 +192,11 @@ def get_instructor(row_lst):
     """
     td_lst = row_lst[1].find_all("td")
     for td in td_lst:
-    #print(td.text.strip())
+        # print(td.text.strip())
         if "Instructor: " in td.text.strip():
             instructor = td.text.strip().rstrip().lstrip().split('\n')[0].strip('Instructor: ')
-            return instructor     
+            return instructor
+
 
 def get_instrSect(row_lst):
     one_instr_sec = InstrSect()
@@ -180,38 +205,41 @@ def get_instrSect(row_lst):
     one_instr_sec.building = get_building(row_lst)
     one_instr_sec.room_number = get_room_num(row_lst)
     one_instr_sec.start_time = get_start_time(row_lst)
-    one_instr_sec.end_time= get_end_time(row_lst)
+    one_instr_sec.end_time = get_end_time(row_lst)
     one_instr_sec.day = get_days(row_lst)
     one_instr_sec.days_list = get_days_list(row_lst)
     one_instr_sec.start_date = get_start_date(row_lst)
     one_instr_sec.end_date = get_end_date(row_lst)
     one_instr_sec.instructor = get_instructor(row_lst)
-    one_instr_sec.cancelled = get_cancelled(row_lst) # function needs work, does not quite work right.
+    one_instr_sec.cancelled = get_cancelled(row_lst)  # function needs work, does not quite work right.
+    one_instr_sec.online = get_online(row_lst)
     return one_instr_sec
+
 
 class InstrSect():
     def __init__(self):
-        self.ID=''
-        self.CRN=''
-        self.building=''
-        self.day=''
-        self.days_list=''
-        self.start_time=''
-        self.end_time=''
-        self.room_number= ''
-        self.instructor=''
-        self.campus=''
-        self.course_name=''
-        self.course_number=''
-        self.department=''
-        self.start_date=''
-        self.end_date=''
-        self.textbook_cost=''
-        self.tuition=''
-        self.fees=''
-        self.cancelled=False
-        self.year=''
-        self.quarter=''
+        self.ID = ''
+        self.CRN = ''
+        self.building = ''
+        self.day = ''
+        self.days_list = []
+        self.start_time = ''
+        self.end_time = ''
+        self.room_number = ''
+        self.instructor = ''
+        self.campus = ''
+        self.course_name = ''
+        self.course_number = ''
+        self.department = ''
+        self.start_date = ''
+        self.end_date = ''
+        self.textbook_cost = ''
+        self.tuition = ''
+        self.fees = ''
+        self.cancelled = False
+        self.online = False
+        self.year = ''
+        self.quarter = ''
 
 
 def get_instr_sec_lst(url):
@@ -229,24 +257,25 @@ def get_instr_sec_lst(url):
     soup = BeautifulSoup(page.content, 'html.parser')
     course_num = get_course_num(soup)
     course_name = get_course_name(soup)
-    dept = get_dept(soup)    
+    dept = get_dept(soup)
 
-    rows = soup.findAll('tr', attrs={'class': ['data-row ','info-row ','data-row alt-color','info-row alt-color']})
+    rows = soup.findAll('tr', attrs={'class': ['data-row ', 'info-row ', 'data-row alt-color', 'info-row alt-color']})
     inst_sec_lst = []
-    for i in range(int(len(rows)/2)):
-        #print('This is instructor time block {}'.format(i))
-        row_lst = rows[i*2:i*2+2]
+    for i in range(int(len(rows) / 2)):
+        # print('This is instructor time block {}'.format(i))
+        row_lst = rows[i * 2:i * 2 + 2]
         instr_sec = get_instrSect(row_lst)
         instr_sec.course_number = course_num
         instr_sec.course_name = course_name
         instr_sec.department = dept
         inst_sec_lst.append(instr_sec)
-        
+
     return inst_sec_lst
 
 
 def main():
-    url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=262&topicCode=GE&subtopicCode=%20'
+    # url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=262&topicCode=GE&subtopicCode=%20'
+    url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=100&topicCode=GE&subtopicCode=&frmtype=ADV&crnList=20610'
     print(url)
     print("getting instructor section objects")
     instr_section_list = get_instr_sec_lst(url)
@@ -255,7 +284,5 @@ def main():
         print()
 
 
-
 if __name__ == "__main__":
     main()
-

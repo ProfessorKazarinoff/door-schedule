@@ -1,7 +1,6 @@
 
 # coding: utf-8
 
-
 from openpyxl import load_workbook, Workbook
 from openpyxl.utils import get_column_letter, column_index_from_string
 from openpyxl.styles import PatternFill, Border, Side, Alignment, Protection, Font, Fill, colors
@@ -35,20 +34,21 @@ class instructorObj():
             print(x.room_number)
             print()
 
-def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='105', day='Tu', start_time='11:00 AM', end_time='2:30 PM', color='ADD8E6'):
+def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='105', day='Sunday', start_time='11:00 AM', end_time='2:30 PM', color='ADD8E6'):
     """
     function inserts a class section into a worksheet object
     """
     if building and room:
         building_and_room = "".join([building,room])
-    else: building_and_room ="Bld Room#"
+    else:
+        building_and_room ="Bld Room#"
 
-    day_dict = {'M':2,'Tu':3,'W':4,'MW': 4, 'Th':5,'F':6,'Sa':7,'Su':8}
-    acronym_dict = {'Monday':2,'Tuesday':3,'Wednesday':4, 'Thursday':5,'Friday':6,'Saturday':7,'Sunday':8}
+    #day_dict = {'M':2,'Tu':3,'W':4,'MW': 4, 'Th':5,'F':6,'Sa':7,'Su':8}
+    day_dict = {'Monday':2,'Tuesday':3,'Wednesday':4, 'Thursday':5,'Friday':6,'Saturday':7,'Sunday':8, 'Su':8}
     if day in day_dict.keys():
         col = day_dict[day]
     else:
-        col = day_dict['Su']
+        col = day_dict['Sunday']
         color = "FF9999"
 
     if (not start_time) or (not end_time):
@@ -71,7 +71,7 @@ def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='
     fl=PatternFill(fill_type='solid', start_color=color)
     wbsheetObj.cell(row=row, column=col).fill = fl
     
-    return  wbsheetObj
+    return wbsheetObj
 
 def get_24h_dec_time(time_str):
     """

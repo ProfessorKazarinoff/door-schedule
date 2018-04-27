@@ -91,6 +91,16 @@ def get_end_time(row_lst):
             end_time = td.text.strip().split("-")[1]
             return end_time.strip()
 
+def get_days_list(row_lst):
+    day_lst =[]
+    for row in row_lst:
+        if row.find('acronym'):
+            inputTag = row.find('acronym')
+            output = inputTag['title']
+            day_lst = [x for x in output.split(' ')[:] if x]
+    if day_lst:
+        return day_lst
+
 def get_days(row_lst):
     """
     input: row_lst, a list of bs4Tag objects with 2 elements, one data-row and one info-row
@@ -105,6 +115,12 @@ def get_days(row_lst):
         re.compile('Sa'),
         re.compile('Su')
     ]
+    # inputTag = soup.find('acronym')
+    # output = inputTag['title']
+    # print(output)
+    # day_lst_full =[x for x in output.split(' ')[:] if x]
+    
+    
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
         if len(td.text.strip())<3 and td.text.strip().isalpha:
@@ -166,6 +182,7 @@ def get_instrSect(row_lst):
     one_instr_sec.start_time = get_start_time(row_lst)
     one_instr_sec.end_time= get_end_time(row_lst)
     one_instr_sec.day = get_days(row_lst)
+    one_instr_sec.days_list = get_days_list(row_lst)
     one_instr_sec.start_date = get_start_date(row_lst)
     one_instr_sec.end_date = get_end_date(row_lst)
     one_instr_sec.instructor = get_instructor(row_lst)
@@ -178,6 +195,7 @@ class InstrSect():
         self.CRN=''
         self.building=''
         self.day=''
+        self.days_list=''
         self.start_time=''
         self.end_time=''
         self.room_number= ''

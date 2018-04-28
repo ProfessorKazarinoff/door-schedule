@@ -13,4 +13,4 @@
 - [x] Get year from breadcrumbs on course page
 - [ ] Get quarter from breadcrumbs on course page
 - [x] Deal with times after 9pm like EET113 Summer 2018
-- [ ] Have separate template for day only instructors, if end time is less than 5pm, use the day schedule template
+- [x] Have separate template for day only instructors, if end time is less than 5pm, use the day schedule template

@@ -73,6 +73,11 @@ def insert_class_sec(wbsheetObj, course_number='CMET 235', building='AM', room='
     wbsheetObj.cell(row=row, column=col).alignment = al
     fl=PatternFill(fill_type='solid', start_color=color)
     wbsheetObj.cell(row=row, column=col).fill = fl
+    #thick_border = Border(left=Side(style='thick'),
+    #                       right=Side(style='thick'),
+    #                       top=Side(style='thick'),
+    #                       bottom=Side(style='thick'))
+
     
     return wbsheetObj
 
@@ -124,7 +129,7 @@ def insert_gen_info(wbsheetObj, quarter='spring', year='2018', instructor ='Pete
     return wbsheetObj
 
 def main():
-    template_path = os.path.join(os.getcwd(),'templates','schedule_template.xlsx')
+    template_path = os.path.join(os.getcwd(),'templates','schedule_template2.xlsx')
     wb = load_workbook(template_path)
     ws = wb['Sheet1']
     ws = insert_gen_info(ws)

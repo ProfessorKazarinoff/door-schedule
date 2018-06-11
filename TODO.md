@@ -1,8 +1,5 @@
 # TO DO
-
 - [ ] Boarders in merged excel files
-- [ ] Online courses building and room number to show ```online``` and some date? Or leave out
-- [x] Last name cut-offs
 - [x] Double spaces in names converted to single spaces
 - [x] Multi day course listings TuTh how to deal with them?
 - [ ] Cancelled courses, leave them out of schedule 

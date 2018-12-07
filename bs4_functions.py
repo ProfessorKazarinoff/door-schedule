@@ -30,7 +30,8 @@ def get_dept(soup):
     output: str, string that is the department name, Example: 'CMET'
     """
     course_num = soup.h2.text.split(" ")[0]
-    return ''.join([i for i in course_num if not i.isdigit()])
+    return "".join([i for i in course_num if not i.isdigit()])
+
 
 def get_year(soup):
     """
@@ -38,10 +39,16 @@ def get_year(soup):
     input: bs4 Soup Object, from a PCC Class Schedule Course Page
     output: str, string that is the course year, Example: '2018'
     """
-    nav_obj_lst = soup.findAll('nav', attrs={'id': ['breadcrumbs']})
+    nav_obj_lst = soup.findAll("nav", attrs={"id": ["breadcrumbs"]})
     if nav_obj_lst:
         if nav_obj_lst[0].text:
-            year_with_colon = "".join([x for x in nav_obj_lst[0].text.split(" ") if any(c.isdigit() for c in x)])
+            year_with_colon = "".join(
+                [
+                    x
+                    for x in nav_obj_lst[0].text.split(" ")
+                    if any(c.isdigit() for c in x)
+                ]
+            )
             if year_with_colon:
                 year = "".join([x for x in year_with_colon if x.isdigit()])
                 return year
@@ -61,7 +68,7 @@ def get_online(row_lst):  # function needs work. Does note work correctly
     td_lst = row_lst[0].find_all("td")
     for td in td_lst:
         if td.text:
-            if 'Web' in td.text.strip():
+            if "Web" in td.text.strip():
                 return True
             else:
                 return False
@@ -130,10 +137,10 @@ def get_end_time(row_lst):
 def get_days_list(row_lst):
     day_lst = []
     for row in row_lst:
-        if row.find('acronym'):
-            inputTag = row.find('acronym')
-            output = inputTag['title']
-            day_lst = [x for x in output.split(' ')[:] if x]
+        if row.find("acronym"):
+            inputTag = row.find("acronym")
+            output = inputTag["title"]
+            day_lst = [x for x in output.split(" ")[:] if x]
     if day_lst:
         return day_lst
 
@@ -144,13 +151,13 @@ def get_days(row_lst):
     """
     regexes = [
         # your regexes here
-        re.compile('M'),
-        re.compile('Tu'),
-        re.compile('W'),
-        re.compile('Th'),
-        re.compile('F'),
-        re.compile('Sa'),
-        re.compile('Su')
+        re.compile("M"),
+        re.compile("Tu"),
+        re.compile("W"),
+        re.compile("Th"),
+        re.compile("F"),
+        re.compile("Sa"),
+        re.compile("Su"),
     ]
     # inputTag = soup.find('acronym')
     # output = inputTag['title']
@@ -194,7 +201,7 @@ def get_cancelled(row_lst):
     input: row_lst, a list of bs4Tag objects with 2 elements, one data-row and one info-row
     """
     for row in row_lst:
-        if row.findAll('span', attrs={'class': ['Canceled']}):
+        if row.findAll("span", attrs={"class": ["Canceled"]}):
             return True
         else:
             return False
@@ -230,35 +237,37 @@ def get_instrSect(row_lst):
     one_instr_sec.start_date = get_start_date(row_lst)
     one_instr_sec.end_date = get_end_date(row_lst)
     one_instr_sec.instructor = get_instructor(row_lst)
-    one_instr_sec.cancelled = get_cancelled(row_lst)  # function needs work, does not quite work right.
+    one_instr_sec.cancelled = get_cancelled(
+        row_lst
+    )  # function needs work, does not quite work right.
     one_instr_sec.online = get_online(row_lst)
     return one_instr_sec
 
 
-class InstrSect():
+class InstrSect:
     def __init__(self):
-        self.ID = ''
-        self.CRN = ''
-        self.building = ''
-        self.day = ''
+        self.ID = ""
+        self.CRN = ""
+        self.building = ""
+        self.day = ""
         self.days_list = []
-        self.start_time = ''
-        self.end_time = ''
-        self.room_number = ''
-        self.instructor = ''
-        self.campus = ''
-        self.course_name = ''
-        self.course_number = ''
-        self.department = ''
-        self.start_date = ''
-        self.end_date = ''
-        self.textbook_cost = ''
-        self.tuition = ''
-        self.fees = ''
+        self.start_time = ""
+        self.end_time = ""
+        self.room_number = ""
+        self.instructor = ""
+        self.campus = ""
+        self.course_name = ""
+        self.course_number = ""
+        self.department = ""
+        self.start_date = ""
+        self.end_date = ""
+        self.textbook_cost = ""
+        self.tuition = ""
+        self.fees = ""
         self.cancelled = False
         self.online = False
-        self.year = ''
-        self.quarter = ''
+        self.year = ""
+        self.quarter = ""
         self.evening = False
 
 
@@ -274,18 +283,28 @@ def get_instr_sec_lst(url):
     :return: lst: a list of InstrSect objects. Each object in the list corresponds to on instructor session of time.
     """
     page = requests.get(url)
-    soup = BeautifulSoup(page.content, 'html.parser')
+    soup = BeautifulSoup(page.content, "html.parser")
     course_num = get_course_num(soup)
     course_name = get_course_name(soup)
     dept = get_dept(soup)
-    #quarter = get_quarter(soup)
+    # quarter = get_quarter(soup)
     year = get_year(soup)
 
-    rows = soup.findAll('tr', attrs={'class': ['data-row ', 'info-row ', 'data-row alt-color', 'info-row alt-color']})
+    rows = soup.findAll(
+        "tr",
+        attrs={
+            "class": [
+                "data-row ",
+                "info-row ",
+                "data-row alt-color",
+                "info-row alt-color",
+            ]
+        },
+    )
     inst_sec_lst = []
     for i in range(int(len(rows) / 2)):
         # print('This is instructor time block {}'.format(i))
-        row_lst = rows[i * 2:i * 2 + 2]
+        row_lst = rows[i * 2 : i * 2 + 2]
         instr_sec = get_instrSect(row_lst)
         instr_sec.course_number = course_num
         instr_sec.course_name = course_name
@@ -298,7 +317,7 @@ def get_instr_sec_lst(url):
 
 def main():
     # url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=262&topicCode=GE&subtopicCode=%20'
-    url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=100&topicCode=GE&subtopicCode=&frmtype=ADV&crnList=20610'
+    url = "https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=100&topicCode=GE&subtopicCode=&frmtype=ADV&crnList=20610"
     print(url)
     print("getting instructor section objects")
     instr_section_list = get_instr_sec_lst(url)

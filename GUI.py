@@ -1,42 +1,76 @@
-# coding: utf-8
-"""
-Main script will webscrape PCC class schedule course pages for instructors, rooms and times.
-Using the class schedule webpage data, schedules for each instructor is created in the output directory
-"""
+# GUI.py
+
+from pathlib import Path
+import os
 import pickle
 import shutil
+from gooey import Gooey, GooeyParser
+
 from class_page_iter_tools import get_dept_urls, get_class_url_lst
 from bs4_functions import get_instr_sec_lst
-from schedule_functions import instructorObj
-import os
-from schedule_functions import insert_gen_info, insert_class_sec, get_24h_dec_time
+from schedule_functions import instructorObj, insert_gen_info, insert_class_sec, get_24h_dec_time
 from openpyxl import load_workbook
 
-import os
-
+@Gooey(dump_build_config=True, program_name="Schedule Building Tool")
 def main():
-    main_url = (
-        main_url
-    ) = "https://www.pcc.edu/schedule/default.cfm?fa=dspTopic&thisTerm=201902&type=Credit"
-    dept_lst = [
-        "Civil and Mechanical Engineering Technology",
-        "Engineering",
-        "Electronic Engineering Technology",
-    ]
+    desc = "A Python GUI App to build a schedule"
+    url_select_help_msg = "Enter the main URL like https://www.pcc.edu/schedule/default.cfm?fa=dspTopic&thisTerm=201902&type=Credit"
+    name_select_help_msg = "Enter your last name, use a capital first letter"
+    template_select_help_msg = "select a .xlsx template to use as the base of your schedule"
+    dir_select_help_msg = "select an output directory"
+    depts_select_help_msg = "Enter the department codes separated by a comma. Like: CMET, ENGR"
 
+
+    my_parser = GooeyParser(description=desc)
+    my_parser.add_argument(
+        "URL_of_credit_class_schedule",
+        help=url_select_help_msg,
+        widget="TextField") 
+    my_parser.add_argument(
+        "Last_Name",
+        help=name_select_help_msg,
+        widget="TextField")
+    #my_parser.add_argument(
+    #    "Template_File",
+    #    help=template_select_help_msg,
+    #    widget="FileChooser")
+    #my_parser.add_argument(
+    #   "Output_Directory",
+    #    help=dir_select_help_msg,
+    #    widget="DirChooser")
+    my_parser.add_argument(
+        "Departments",
+        help=depts_select_help_msg,
+        widget="TextField")
+
+    args = my_parser.parse_args()
+    main_url = args.URL_of_credit_class_schedule
+    dept_code_lst = args.Departments.strip().split(',')
+    #dept_lst=[
+    #    "Civil and Mechanical Engineering Technology",
+    #    "Engineering",
+    #    "Electronic Engineering Technology",
+    #]
+    dept_code_dict = {"CMET":"Civil and Mechanical Engineering Technology", "ENGR":"Engineering", "EET":"Electronic Engineering Technology"}
+    dept_name_lst = [dept_code_dict[code.strip()] for code in dept_code_lst]
+    #print(depts_lst)
+    
     # get a list of the department page urls
-    dept_url_lst = get_dept_urls(main_url, dept_lst)
-
+    dept_url_lst = get_dept_urls(main_url, dept_name_lst)
+    #print(dept_url_lst)
+    
     # get a long list of all the class page urls
     class_url_lst = get_class_url_lst(dept_url_lst)
+    #print(class_url_lst)
 
     # iterate through all class page urls and build a list of SectionObjects
     instr_section_list = []
     for url in class_url_lst:
         instr_section_list.extend(get_instr_sec_lst(url))
 
-    # extract a unique set of instructor names into a set
-    instructor_set = set([x.instructor for x in instr_section_list])
+    for sec in instr_section_list:
+        print(sec)
+    instructor_set = {'Peter Kazarinoff'}
 
     # form a list of instructor Objects, each instructor has a list of class schedule objects
     instr_obj_list = []
@@ -58,6 +92,7 @@ def main():
         )
 
         instr_obj_list.append(inst_Obj)
+
 
     # empty the out/ directory and all of its contents
     if os.path.exists(os.path.join(os.getcwd(), "out")):
@@ -132,6 +167,9 @@ def main():
     output = open(picklepath, "wb")
     pickle.dump(instr_obj_list, output)
     output.close()
+
+
+
 
 
 if __name__ == "__main__":

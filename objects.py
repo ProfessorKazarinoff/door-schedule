@@ -33,25 +33,40 @@ class TimeBlock:
         self.course_code = course_code  # str
         self.course_name = course_name  # str
         self.instructor = instructor  # str
-        self.is_class = is_class # bool
-        self.is_office_hours = is_office_hours # bool
-        self.quarter = quarter # str
-        self.year = year # int
+        self.is_class = is_class  # bool
+        self.is_office_hours = is_office_hours  # bool
+        self.quarter = quarter  # str
+        self.year = year  # int
 
     def __str__(self):
-        if self.day and self.start_time and self.end_time and self.course_code and self.room:
-            return self.day + self.start_time + self.end_time + self.course_code + self.room
+        if (
+            self.day
+            and self.start_time
+            and self.end_time
+            and self.course_code
+            and self.room
+        ):
+            return (
+                self.day
+                + self.start_time
+                + self.end_time
+                + self.course_code
+                + self.room
+            )
         else:
-            return ''
+            return ""
 
 
-class Instructor():
-    def __init__(self, first_name=None,
-    last_name=None,
-    office=None,
-    email=None,
-    phone=None,
-    office_hours=None,):
+class Instructor:
+    def __init__(
+        self,
+        first_name=None,
+        last_name=None,
+        office=None,
+        email=None,
+        phone=None,
+        office_hours=None,
+    ):
         self.first_name = first_name
         self.last_name = last_name
         self.office = office
@@ -65,17 +80,32 @@ class OfficeHour(TimeBlock):
         super().__init__(self)
 
 
-class Room():
+class Room:
     def __init__(self, location):
         self.location = location
 
-class Day():
-    def __init__(self,in_arg):
-        day_dict = {'Mon': 'Monday', 'Tues': 'Tuesday', 'Wed': 'Wednesday', 'Thurs': 'Thursday', 'Fri': 'Friday',
-                    'Sat': 'Saturday', 'Sun': 'Sunday'}
-        num_dict = {1: 'Mon', 2: 'Tues', 3: 'Wed', 4: 'Thurs', 5: 'Fri',
-                    6: 'Sat', 7: 'Sun'}
-        if type(in_arg) == int and in_arg in [1,2,3,4,5,6,7]:
+
+class Day:
+    def __init__(self, in_arg):
+        day_dict = {
+            "Mon": "Monday",
+            "Tues": "Tuesday",
+            "Wed": "Wednesday",
+            "Thurs": "Thursday",
+            "Fri": "Friday",
+            "Sat": "Saturday",
+            "Sun": "Sunday",
+        }
+        num_dict = {
+            1: "Mon",
+            2: "Tues",
+            3: "Wed",
+            4: "Thurs",
+            5: "Fri",
+            6: "Sat",
+            7: "Sun",
+        }
+        if type(in_arg) == int and in_arg in [1, 2, 3, 4, 5, 6, 7]:
             self.number = in_arg
             self.short_name = num_dict[in_arg]
             self.long_name = day_dict[self.short_name]
@@ -85,4 +115,6 @@ class Day():
         elif in_arg in day_dict.values():
             self.long_name = in_arg
         else:
-            return TypeError('Only 1-7, "Mon" or "Monday" can be used to create a Day object')
+            return TypeError(
+                'Only 1-7, "Mon" or "Monday" can be used to create a Day object'
+            )

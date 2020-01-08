@@ -155,8 +155,8 @@ def insert_gen_info(
     """
     function builds the header part of an excel schedule 
     """
-    wbsheetObj["D1"] = quarter.upper()
-    wbsheetObj["D1"] = year
+    wbsheetObj["A1"] = quarter.upper()
+    wbsheetObj["E1"] = year
     wbsheetObj["C3"] = instructor
     wbsheetObj["C4"] = department
 
@@ -187,7 +187,7 @@ def insert_gen_info(
 def main():
     template_path = os.path.join(os.getcwd(), "templates", "schedule_template2.xlsx")
     wb = load_workbook(template_path)
-    ws = wb["Sheet1"]
+    ws = wb.active
     ws = insert_gen_info(ws)
     ws = insert_class_sec(ws)
 

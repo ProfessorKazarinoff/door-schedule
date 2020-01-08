@@ -66,19 +66,19 @@
           "name": "required_args_msg",
           "items": [
             {
-              "id": "URL_of_credit_class_schedule",
+              "id": "Year",
               "type": "TextField",
               "cli_type": "positional",
               "required": true,
               "data": {
-                "display_name": "URL_of_credit_class_schedule",
-                "help": "Enter the main URL like https://www.pcc.edu/schedule/default.cfm?fa=dspTopic&thisTerm=201902&type=Credit",
+                "display_name": "Year",
+                "help": "Enter the year like 2019",
                 "required": true,
                 "nargs": "",
                 "commands": [],
                 "choices": [],
-                "default": null,
-                "dest": "URL_of_credit_class_schedule"
+                "default": "2020",
+                "dest": "Year"
               },
               "options": {
                 "error_color": "#ea7878",
@@ -95,19 +95,77 @@
               }
             },
             {
-              "id": "Last Name",
+              "id": "Quarter",
               "type": "TextField",
               "cli_type": "positional",
               "required": true,
               "data": {
-                "display_name": "Last Name",
+                "display_name": "Quarter",
+                "help": "Enter the quarter like Fall or 01",
+                "required": true,
+                "nargs": "",
+                "commands": [],
+                "choices": [],
+                "default": "Winter",
+                "dest": "Quarter"
+              },
+              "options": {
+                "error_color": "#ea7878",
+                "label_color": "#000000",
+                "help_color": "#363636",
+                "full_width": false,
+                "validator": {
+                  "test": "user_input and not user_input.isspace()",
+                  "message": "This field is required"
+                },
+                "external_validator": {
+                  "cmd": ""
+                }
+              }
+            },
+            {
+              "id": "Last_Name",
+              "type": "TextField",
+              "cli_type": "positional",
+              "required": true,
+              "data": {
+                "display_name": "Last_Name",
                 "help": "Enter your last name, use a capital first letter",
                 "required": true,
                 "nargs": "",
                 "commands": [],
                 "choices": [],
-                "default": null,
-                "dest": "Last Name"
+                "default": "Kazarinoff",
+                "dest": "Last_Name"
+              },
+              "options": {
+                "error_color": "#ea7878",
+                "label_color": "#000000",
+                "help_color": "#363636",
+                "full_width": false,
+                "validator": {
+                  "test": "user_input and not user_input.isspace()",
+                  "message": "This field is required"
+                },
+                "external_validator": {
+                  "cmd": ""
+                }
+              }
+            },
+            {
+              "id": "First_Name",
+              "type": "TextField",
+              "cli_type": "positional",
+              "required": true,
+              "data": {
+                "display_name": "First_Name",
+                "help": "Enter your last name, use a capital first letter",
+                "required": true,
+                "nargs": "",
+                "commands": [],
+                "choices": [],
+                "default": "Peter",
+                "dest": "First_Name"
               },
               "options": {
                 "error_color": "#ea7878",
@@ -135,8 +193,66 @@
                 "nargs": "",
                 "commands": [],
                 "choices": [],
-                "default": null,
+                "default": "CMET, ENGR",
                 "dest": "Departments"
+              },
+              "options": {
+                "error_color": "#ea7878",
+                "label_color": "#000000",
+                "help_color": "#363636",
+                "full_width": false,
+                "validator": {
+                  "test": "user_input and not user_input.isspace()",
+                  "message": "This field is required"
+                },
+                "external_validator": {
+                  "cmd": ""
+                }
+              }
+            },
+            {
+              "id": "Email_Address",
+              "type": "TextField",
+              "cli_type": "positional",
+              "required": true,
+              "data": {
+                "display_name": "Email_Address",
+                "help": "Enter your email address like: first.last@pcc.edu",
+                "required": true,
+                "nargs": "",
+                "commands": [],
+                "choices": [],
+                "default": "peter.kazarinoff@pcc.edu",
+                "dest": "Email_Address"
+              },
+              "options": {
+                "error_color": "#ea7878",
+                "label_color": "#000000",
+                "help_color": "#363636",
+                "full_width": false,
+                "validator": {
+                  "test": "user_input and not user_input.isspace()",
+                  "message": "This field is required"
+                },
+                "external_validator": {
+                  "cmd": ""
+                }
+              }
+            },
+            {
+              "id": "Phone",
+              "type": "TextField",
+              "cli_type": "positional",
+              "required": true,
+              "data": {
+                "display_name": "Phone",
+                "help": "Enter your office phone number like 971-722-8065",
+                "required": true,
+                "nargs": "",
+                "commands": [],
+                "choices": [],
+                "default": "971-722-8065",
+                "dest": "Phone"
               },
               "options": {
                 "error_color": "#ea7878",

@@ -17,7 +17,7 @@ class TimeBlock:
         course_title=None,
         day=None,
         department=None,
-        location=None
+        location=None,
         instructor=None,
         is_class=True,
         is_office_hours=False,
@@ -73,7 +73,7 @@ class Instructor:
         self.email = email
         self.phone = phone
         self.office_hours = office_hours  # list of OfficeHourTimeBlocks
-        self.classes = classes # list of ClassTimeBlocks
+        self.classes = classes  # list of ClassTimeBlocks
 
 
 class OfficeHourTimeBlock(TimeBlock):
@@ -82,17 +82,20 @@ class OfficeHourTimeBlock(TimeBlock):
         self.is_class = is_class
         self.is_office_hours = is_office_hours
 
+
 class ClassTimeBlock(TimeBlock):
     def __init__(self, is_class=True, is_office_hours=False):
         super().__init__(self)
         self.is_class = is_class
         self.is_office_hours = is_office_hours
 
+
 class Room:
-    def __init__(self, campus = None, building = None, room_number = None):
+    def __init__(self, campus=None, building=None, room_number=None):
         self.campus = campus
         self.building = building
         self.room_number = room_number
+
 
 class Day:
     def __init__(self, in_arg):

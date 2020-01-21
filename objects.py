@@ -11,13 +11,13 @@ class TimeBlock:
     def __init__(
         self,
         id=None,
-        start_time=None,
-        end_time=None,
-        day=None,
         CRN=None,
-        room=None,
-        course_code=None,
-        course_name=None,
+        building=None,
+        course_num=None,
+        course_title=None,
+        day=None,
+        department=None,
+        location=None
         instructor=None,
         is_class=True,
         is_office_hours=False,
@@ -29,10 +29,10 @@ class TimeBlock:
         self.end_time = end_time  # datetime
         self.day = day  # str
         self.CNR = CRN  # int
-        self.room = room  # str
+        self.room = room  # Room class object
         self.course_code = course_code  # str
         self.course_name = course_name  # str
-        self.instructor = instructor  # str
+        self.instructor = instructor  # Instructor class object
         self.is_class = is_class  # bool
         self.is_office_hours = is_office_hours  # bool
         self.quarter = quarter  # str
@@ -72,18 +72,27 @@ class Instructor:
         self.office = office
         self.email = email
         self.phone = phone
-        self.office_hours = office_hours  # list of TimeBlocks
+        self.office_hours = office_hours  # list of OfficeHourTimeBlocks
+        self.classes = classes # list of ClassTimeBlocks
 
 
-class OfficeHour(TimeBlock):
+class OfficeHourTimeBlock(TimeBlock):
     def __init__(self, is_class=False, is_office_hours=True):
         super().__init__(self)
+        self.is_class = is_class
+        self.is_office_hours = is_office_hours
 
+class ClassTimeBlock(TimeBlock):
+    def __init__(self, is_class=True, is_office_hours=False):
+        super().__init__(self)
+        self.is_class = is_class
+        self.is_office_hours = is_office_hours
 
 class Room:
-    def __init__(self, location):
-        self.location = location
-
+    def __init__(self, campus = None, building = None, room_number = None):
+        self.campus = campus
+        self.building = building
+        self.room_number = room_number
 
 class Day:
     def __init__(self, in_arg):

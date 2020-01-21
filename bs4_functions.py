@@ -316,8 +316,8 @@ def get_instr_sec_lst(url):
 
 
 def main():
-    # url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=262&topicCode=GE&subtopicCode=%20'
-    url = "https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=201802&crsCode=ENGR&subjCode=ENGR&crsNum=100&topicCode=GE&subtopicCode=&frmtype=ADV&crnList=20610"
+    # url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=202001&crsCode=ENGR&subjCode=ENGR&crsNum=101&topicCode=GE&subtopicCode=%20'
+    url = "https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=202001&crsCode=ENGR&subjCode=ENGR&crsNum=101&topicCode=GE&subtopicCode=%20"
     print(url)
     print("getting instructor section objects")
     instr_section_list = get_instr_sec_lst(url)

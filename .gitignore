@@ -145,3 +145,10 @@ out/*
 .vscode/
 .vscode
 
+# PyCharm
+
+.idea
+.idea/
+
+# Jupyter notebooks
+.ipynb_checkpoints

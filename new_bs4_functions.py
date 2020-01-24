@@ -94,7 +94,7 @@ def pull_time_blocks_from_html_table_rows_list(html_table_rows_list):
             prev_crn = CRN_str
         else:
             CRN_str = prev_crn
-        time_block["CRN"] = CRN_str
+        time_block["CRN"] = int(CRN_str)
 
         # pull out the room number
         room_num_str = get_room_num_from_table_row(row)

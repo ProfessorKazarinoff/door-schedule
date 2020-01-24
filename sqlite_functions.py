@@ -84,36 +84,40 @@ def main():
     else:
         print("Error! cannot create the database connection.")
 
-def create_sql_dict(time_block_dict,year=2020,quarter=1):
+
+def create_sql_dict(time_block_dict, year=2020, quarter=1):
     sql_dict = {}
-    sql_dict['CRN']=int(time_block_dict['CRN'])
-    sql_dict['building'] = time_block_dict['building'][0:2]
-    sql_dict['campus'] = time_block_dict['campus'][0:2]
-    sql_dict['course_num'] = time_block_dict['course_num'][0:7]
-    sql_dict['course_title'] = time_block_dict['course_title']
-    sql_dict['day'] = time_block_dict['day']
-    sql_dict['department'] = time_block_dict['department'][0:4]
-    sql_dict['instructor_first_name'] = time_block_dict['instructor_first_name']
-    sql_dict['instructor_last_name'] = time_block_dict['instructor_last_name']
-    if time_block_dict['room_number'] == 'Web':
-        sql_dict['room_number'] = None
+    sql_dict["CRN"] = int(time_block_dict["CRN"])
+    sql_dict["building"] = time_block_dict["building"][0:2]
+    sql_dict["campus"] = time_block_dict["campus"][0:2]
+    sql_dict["course_num"] = time_block_dict["course_num"][0:7]
+    sql_dict["course_title"] = time_block_dict["course_title"]
+    sql_dict["day"] = time_block_dict["day"]
+    sql_dict["department"] = time_block_dict["department"][0:4]
+    sql_dict["instructor_first_name"] = time_block_dict["instructor_first_name"]
+    sql_dict["instructor_last_name"] = time_block_dict["instructor_last_name"]
+    if time_block_dict["room_number"] == "Web":
+        sql_dict["room_number"] = None
     else:
-        sql_dict['room_number'] = int(time_block_dict['room_number'])
-    sql_dict['instructor_first_name'] = time_block_dict['instructor_first_name']
+        sql_dict["room_number"] = int(time_block_dict["room_number"])
+    sql_dict["instructor_first_name"] = time_block_dict["instructor_first_name"]
     try:
-        maya_t1 = maya.when(time_block_dict['start_time'])
-        sql_dict['start_time'] = datetime.time(maya_t1.hour, maya_t1.minute, maya_t1.second)
-        maya_t2 = maya.when(time_block_dict['stop_time'])
-        sql_dict['stop_time'] = datetime.time(maya_t2.hour, maya_t2.minute, maya_t2.second)
+        maya_t1 = maya.when(time_block_dict["start_time"])
+        sql_dict["start_time"] = datetime.time(
+            maya_t1.hour, maya_t1.minute, maya_t1.second
+        )
+        maya_t2 = maya.when(time_block_dict["stop_time"])
+        sql_dict["stop_time"] = datetime.time(
+            maya_t2.hour, maya_t2.minute, maya_t2.second
+        )
     except:
-        sql_dict['start_time'] = None
-        sql_dict['stop_time'] = None
+        sql_dict["start_time"] = None
+        sql_dict["stop_time"] = None
     # insert end time
-    sql_dict['year'] = year
-    sql_dict['quarter'] = quarter
+    sql_dict["year"] = year
+    sql_dict["quarter"] = quarter
 
     return sql_dict
-
 
 
 if __name__ == "__main__":

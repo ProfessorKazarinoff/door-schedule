@@ -3,13 +3,14 @@
 from models import Time_Block, Instructor, Base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-engine = create_engine('sqlite:///sqlalchemy_example.db')
+
+engine = create_engine("sqlite:///sqlalchemy_example.db")
 Base.metadata.bind = engine
 DBSession = sessionmaker()
 DBSession.bind = engine
 session = DBSession()
 # Make a query to find all Time_Blocks in the database
-#session.query(Time_Block).all()
+# session.query(Time_Block).all()
 time_block = session.query(Time_Block).first()
 print(time_block.CRN)
 # CRN 11850

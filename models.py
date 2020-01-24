@@ -8,17 +8,18 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
 # Global Variables
-SQLITE = 'sqlite'
+SQLITE = "sqlite"
 
 # Table Names
-TIME_BLOCKS = 'time_blocks'
-INSTRUCTORS = 'instructors'
+TIME_BLOCKS = "time_blocks"
+INSTRUCTORS = "instructors"
 
 Base = declarative_base()
 
+
 class Time_Block(Base):
-    __tablename__ = 'time_blocks'
-    id = Column(Integer, Sequence('id_seq'), primary_key=True)
+    __tablename__ = "time_blocks"
+    id = Column(Integer, Sequence("id_seq"), primary_key=True)
     CRN = Column(Integer)
     building = Column(String(2))
     campus = Column(String(2))
@@ -37,9 +38,10 @@ class Time_Block(Base):
     def __repr__(self):
         return f"{self.id}, {self.course_num}"
 
+
 class Instructor(Base):
-    __tablename__ = 'instructors'
-    id = Column(Integer, Sequence('id_seq'), primary_key=True)
+    __tablename__ = "instructors"
+    id = Column(Integer, Sequence("id_seq"), primary_key=True)
     first_name = Column(String(20))
     last_name = Column(String(20))
     campus = Column(String(2))
@@ -50,5 +52,6 @@ class Instructor(Base):
     def __repr__(self):
         return f"{self.id}, {self.last_name}"
 
-engine = create_engine('sqlite:///sqlalchemy_example.db')
+
+engine = create_engine("sqlite:///sqlalchemy_example.db")
 Base.metadata.create_all(engine)

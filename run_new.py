@@ -28,6 +28,8 @@ def main():
 
     pprint(time_block_lst)
 
+    return time_block_lst
+
 
 if __name__ == "__main__":
     main()

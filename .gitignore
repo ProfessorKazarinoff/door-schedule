@@ -152,3 +152,11 @@ out/*
 
 # Jupyter notebooks
 .ipynb_checkpoints
+
+# Class list saved locally
+class_list.txt
+
+# Any db files
+sqlalchemy_example.db
+.db
+*.db

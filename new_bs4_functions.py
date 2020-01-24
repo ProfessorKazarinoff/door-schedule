@@ -102,9 +102,9 @@ def pull_time_blocks_from_html_table_rows_list(html_table_rows_list):
             prev_room_num = room_num_str
         else:
             room_num_str = prev_room_num
-        time_block["room_number"] = room_num_str[-3:]
-        time_block["building"] = room_num_str[3:-3]
-        time_block["campus"] = room_num_str[:2]
+        time_block["room_number"] = room_num_str[-3:].strip()
+        time_block["building"] = room_num_str[3:-3].strip()
+        time_block["campus"] = room_num_str[:2].strip()
 
         # pull out the day and time
         day_and_time_str = get_day_and_time_from_table_row(row)

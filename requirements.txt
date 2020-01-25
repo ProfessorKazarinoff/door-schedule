@@ -9,6 +9,7 @@ colored==1.4.2
 dateparser==0.7.2
 et-xmlfile==1.0.1
 Gooey==1.0.3
+gunicorn==20.0.4
 humanize==0.5.1
 idna==2.8
 jdcal==1.4.1

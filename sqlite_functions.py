@@ -116,9 +116,12 @@ def create_sql_dict(time_block_dict, year=2020, quarter=1):
     # insert end time
     sql_dict["year"] = year
     sql_dict["quarter"] = quarter
+    #if sql_dict["building"] in ["we","We"] or sql_dict["campus"] in ["we","We"] or not sql_dict['building'] or not sql_dict['campus']:
+    #    sql_dict["in_person"] = False
+    #
+    #     sql_dict["web"] = True
 
     return sql_dict
-
 
 if __name__ == "__main__":
     main()

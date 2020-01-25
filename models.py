@@ -3,7 +3,7 @@
 Models for sqlite3 database
 """
 
-from sqlalchemy import Column, Sequence, Integer, String, DateTime, Time, ForeignKey
+from sqlalchemy import Column, Sequence, Integer, String, DateTime, Time, ForeignKey, Boolean
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -17,16 +17,17 @@ INSTRUCTORS = "instructors"
 Base = declarative_base()
 
 
-class Time_Block(Base):
+class TimeBlock(Base):
     __tablename__ = "time_blocks"
     id = Column(Integer, Sequence("id_seq"), primary_key=True)
     CRN = Column(Integer)
     building = Column(String(2))
     campus = Column(String(2))
-    course_num = Column(String(7))
+    course_num = Column(String(8))
     course_title = Column(String(50))
     day = Column(String(10))
     department = Column(String(4))
+    # instructor_id = db.Column(db.Integer, db.Foreignkey('instructor.id'))
     instructor_first_name = Column(String(20))
     instructor_last_name = Column(String(20))
     room_number = Column(Integer)
@@ -34,6 +35,9 @@ class Time_Block(Base):
     stop_time = Column(Time)
     year = Column(Integer)
     quarter = Column(Integer)
+    in_person = Column(Boolean, default=True)
+    web = Column(Boolean, default=False)
+
 
     def __repr__(self):
         return f"{self.id}, {self.course_num}"
@@ -48,6 +52,7 @@ class Instructor(Base):
     building = Column(String(2))
     office_room_num: Column(String(5))
     phone: Column(String(12))
+    #time_blocks = db.relationshis('Time_Block', backref='instructor')
 
     def __repr__(self):
         return f"{self.id}, {self.last_name}"

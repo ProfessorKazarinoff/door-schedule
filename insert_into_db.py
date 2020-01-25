@@ -5,7 +5,7 @@ A working python script to insert a record into the the time_block database
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
-from models import Time_Block, Instructor, Base
+from models import TimeBlock, Instructor, Base
 import datetime
 import maya
 from sqlite_functions import create_sql_dict
@@ -30,7 +30,7 @@ DBSession = sessionmaker(bind=engine)
 session = DBSession()
 
 # Insert a time block into the time_blocks table
-new_time_block = Time_Block(CRN=13243, course_num="CMET133")
+new_time_block = TimeBlock(CRN=13243, course_num="CMET133")
 session.add(new_time_block)
 session.commit()
 
@@ -60,7 +60,7 @@ d = {
     "quarter": 1,
 }
 
-another_time_block = Time_Block(**d)
+another_time_block = TimeBlock(**d)
 session.add(another_time_block)
 session.commit()
 
@@ -82,7 +82,7 @@ time_block_list = run_new.main()
 
 for time_block_dict in time_block_list:
     sql_dict = create_sql_dict(time_block_dict)
-    time_block = Time_Block(**sql_dict)
+    time_block = TimeBlock(**sql_dict)
     session.add(time_block)
     session.commit()
 

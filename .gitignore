@@ -160,3 +160,6 @@ class_list.txt
 sqlalchemy_example.db
 .db
 *.db
+
+# VS Code
+.vscode/

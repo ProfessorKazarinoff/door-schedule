@@ -18,7 +18,7 @@ import os
 def main():
     main_url = (
         main_url
-    ) = "https://www.pcc.edu/schedule/default.cfm?fa=dspTopic&thisTerm=201902&type=Credit"
+    ) = "https://www.pcc.edu/schedule/default.cfm?fa=dspTopic&thisTerm=202204&type=Credit"
     dept_lst = [
         "Civil and Mechanical Engineering Technology",
         "Engineering",

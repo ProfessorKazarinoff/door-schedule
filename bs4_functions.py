@@ -61,7 +61,7 @@ def get_CRN(row_lst):
     return row_lst[0].td.text
 
 
-def get_online(row_lst):  # function needs work. Does note work correctly
+def get_online(row_lst):  # function needs work. Does not work correctly
     """
     input: row_lst, a list of bs4Tag objects with 2 elements, one data-row and one info-row
     """
@@ -314,6 +314,27 @@ def get_instr_sec_lst(url):
 
     return inst_sec_lst
 
+def get_course_url_lst(dept_url="https://www.pcc.edu/schedule/default.cfm?fa=dspTopicDetails&thisTerm=202301&topicid=GE&type=Credit"):
+    """
+    A function to get a list of course urls from a department page
+    that contains a list of courses for a particular quarter
+    input: <str>
+        dept_url = "https://www.pcc.edu/schedule/default.cfm?fa=dspTopicDetails&thisTerm=202301&topicid=GE&type=Credit"
+    output: <list> of <str>
+        course_url_lst = [
+            "https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=202301&crsCode=ENGR100&topicCode=GE&subtopicCode=%20",
+            "https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=202301&crsCode=ENGR101&topicCode=GE&subtopicCode=%20"
+        ]
+    """
+    print("getting list of courses from department page: ")
+    print(dept_url)
+    page = requests.get(dept_url)
+    soup = BeautifulSoup(page.content, "html.parser")
+    page_content_div = soup.find(
+        "div",
+        attrs={"id": "content"},
+    )
+    print(page_content_div[0])
 
 def main():
     # url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=202001&crsCode=ENGR&subjCode=ENGR&crsNum=101&topicCode=GE&subtopicCode=%20'

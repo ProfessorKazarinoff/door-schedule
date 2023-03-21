@@ -314,7 +314,10 @@ def get_instr_sec_lst(url):
 
     return inst_sec_lst
 
-def get_course_url_lst(dept_url="https://www.pcc.edu/schedule/default.cfm?fa=dspTopicDetails&thisTerm=202301&topicid=GE&type=Credit"):
+
+def get_course_url_lst(
+    dept_url="https://www.pcc.edu/schedule/default.cfm?fa=dspTopicDetails&thisTerm=202301&topicid=GE&type=Credit",
+):
     """
     A function to get a list of course urls from a department page
     that contains a list of courses for a particular quarter
@@ -335,6 +338,7 @@ def get_course_url_lst(dept_url="https://www.pcc.edu/schedule/default.cfm?fa=dsp
         attrs={"id": "content"},
     )
     print(page_content_div[0])
+
 
 def main():
     # url = 'https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=202001&crsCode=ENGR&subjCode=ENGR&crsNum=101&topicCode=GE&subtopicCode=%20'

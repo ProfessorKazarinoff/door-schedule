@@ -3,7 +3,16 @@
 Models for sqlite3 database
 """
 
-from sqlalchemy import Column, Sequence, Integer, String, DateTime, Time, ForeignKey, Boolean
+from sqlalchemy import (
+    Column,
+    Sequence,
+    Integer,
+    String,
+    DateTime,
+    Time,
+    ForeignKey,
+    Boolean,
+)
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 
@@ -38,7 +47,6 @@ class TimeBlock(Base):
     in_person = Column(Boolean, default=True)
     web = Column(Boolean, default=False)
 
-
     def __repr__(self):
         return f"{self.id}, {self.course_num}"
 
@@ -52,7 +60,7 @@ class Instructor(Base):
     building = Column(String(2))
     office_room_num: Column(String(5))
     phone: Column(String(12))
-    #time_blocks = db.relationshis('Time_Block', backref='instructor')
+    # time_blocks = db.relationshis('Time_Block', backref='instructor')
 
     def __repr__(self):
         return f"{self.id}, {self.last_name}"

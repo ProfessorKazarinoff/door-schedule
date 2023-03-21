@@ -10,7 +10,7 @@ import datetime
 
 
 def create_db(db_file):
-    """ create a database connection to a SQLite database """
+    """create a database connection to a SQLite database"""
     conn = None
     try:
         conn = sqlite3.connect(db_file)
@@ -23,7 +23,7 @@ def create_db(db_file):
 
 
 def create_connection(db_file):
-    """ create a database connection to the SQLite database
+    """create a database connection to the SQLite database
         specified by db_file
     :param db_file: database file
     :return: Connection object or None
@@ -39,7 +39,7 @@ def create_connection(db_file):
 
 
 def create_table(conn, create_table_sql):
-    """ create a table from the create_table_sql statement
+    """create a table from the create_table_sql statement
     :param conn: Connection object
     :param create_table_sql: a CREATE TABLE statement
     :return:
@@ -116,12 +116,13 @@ def create_sql_dict(time_block_dict, year=2020, quarter=1):
     # insert end time
     sql_dict["year"] = year
     sql_dict["quarter"] = quarter
-    #if sql_dict["building"] in ["we","We"] or sql_dict["campus"] in ["we","We"] or not sql_dict['building'] or not sql_dict['campus']:
+    # if sql_dict["building"] in ["we","We"] or sql_dict["campus"] in ["we","We"] or not sql_dict['building'] or not sql_dict['campus']:
     #    sql_dict["in_person"] = False
     #
     #     sql_dict["web"] = True
 
     return sql_dict
+
 
 if __name__ == "__main__":
     main()

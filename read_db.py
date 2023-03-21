@@ -25,8 +25,12 @@ print(time_block)
 
 instructor = session.query(Instructor).first()
 print(instructor.first_name)
-#instr_first_name = 'Peter'
-instr_first_name = input('Enter instructor first name (include capital): ')
+# instr_first_name = 'Peter'
+instr_first_name = input("Enter instructor first name (include capital): ")
 print(f"\nClasses for {instr_first_name}:")
-for block in session.query(TimeBlock).filter(TimeBlock.instructor_first_name==instr_first_name):
-    print(f"{block.course_num} {block.day} {block.start_time} - {block.stop_time} {block.building}{block.room_number}")
+for block in session.query(TimeBlock).filter(
+    TimeBlock.instructor_first_name == instr_first_name
+):
+    print(
+        f"{block.course_num} {block.day} {block.start_time} - {block.stop_time} {block.building}{block.room_number}"
+    )

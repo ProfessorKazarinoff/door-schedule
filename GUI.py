@@ -185,7 +185,13 @@ def main():
         wb = load_workbook(template_path)
         ws = wb.active
         ws = insert_gen_info(
-            ws, quarter_str, year_str, full_name_str, depts_str, email_str, phone_str,
+            ws,
+            quarter_str,
+            year_str,
+            full_name_str,
+            depts_str,
+            email_str,
+            phone_str,
         )
 
         # iterate over the class list for each instructor, then if there are muiltiple days in one class, iterate over those days

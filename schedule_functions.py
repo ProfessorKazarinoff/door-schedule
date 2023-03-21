@@ -153,7 +153,7 @@ def insert_gen_info(
     phone="971.722.8065",
 ):
     """
-    function builds the header part of an excel schedule 
+    function builds the header part of an excel schedule
     """
     wbsheetObj["A1"] = quarter.upper()
     wbsheetObj["E1"] = year

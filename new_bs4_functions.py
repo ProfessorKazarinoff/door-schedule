@@ -169,7 +169,7 @@ def pull_time_block_list_from_url(url):
 
 
 def main():
-    url = "https://www.pcc.edu/schedule/default.cfm?fa=dspCourse2&thisTerm=202001&crsCode=ENGR&subjCode=ENGR&crsNum=101&topicCode=GE&subtopicCode=%20"
+    url = "https://www.pcc.edu/schedule/spring/ge/engr101/"
     time_block_list = pull_time_block_list_from_url(url)
     pprint(time_block_list)
 

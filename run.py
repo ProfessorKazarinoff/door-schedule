@@ -31,7 +31,7 @@ def main():
     # get a long list of all the class page urls
     class_url_lst = get_class_url_lst(dept_url_lst)
 
-    # iterate through all class page urls and build a list of SectionObjects
+    # iterate through all class page urls and build a list of Section Objects
     instr_section_list = []
     for url in class_url_lst:
         instr_section_list.extend(get_instr_sec_lst(url))

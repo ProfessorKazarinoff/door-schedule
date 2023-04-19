@@ -58,7 +58,11 @@ def get_timeblock_dict_from_row(row):
         if td.text.endswith("pm") or td.text.endswith("am"):
             end_time = td.text.split(" ")[-1]
             start_time_line = td.text.split("-")[-2]
-            start_time = "".join(c for c in start_time_line if c.isdigit()) + ":00"
+            # start_time = "".join(c for c in start_time_line if c.isdigit()) + ":00"
+            start_time = start_time_line.split(" from ")[-1]
+            if len(start_time) <= 3:
+                start_hr = start_time[-3:]
+                start_time = start_hr + ":00"
             if td.text.endswith("pm"):
                 start_time = start_time + "pm"
             elif td.text.endswith("am"):
@@ -95,13 +99,26 @@ def get_lst_of_time_block_dicts_from_course_page(
 
 
 def main():
-    course_page_url = "https://www.pcc.edu/schedule/spring/ge/engr101/"
-    page_content_soup = get_content_div_from_page(course_page_url)
-    table_soup = get_table_from_course_page_content(page_content_soup)
-    table_body_soup = get_table_body_from_course_page_content(table_soup)
-    row_list = get_list_of_table_rows(table_body_soup)
-    for row in row_list:
-        time_block_dict = get_timeblock_dict_from_row(row)
+    course_list = [
+        "engr100",
+        "engr101",
+        "engr102",
+        "engr105",
+        "engr114",
+        "engr211",
+        "engr212",
+        "engr213",
+        "engr221",
+        "engr222",
+        "engr223",
+        "engr231",
+        "engr262",
+        "engr271",
+    ]
+    # course_list = ["engr101"]
+    for course in course_list:
+        url = "https://www.pcc.edu/schedule/spring/ge/" + course + "/"
+        time_block_dict_list = get_lst_of_time_block_dicts_from_course_page(url)
 
 
 if __name__ == "__main__":

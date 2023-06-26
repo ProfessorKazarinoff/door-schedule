@@ -51,40 +51,6 @@ def create_table(conn, create_table_sql):
         print(e)
 
 
-def main():
-    db = os.path.join(os.getcwd(), "out", "db.sqlite3")
-    sql_create_time_block_table = """CREATE TABLE time_blocks (
-                                        id integer PRIMARY KEY,
-                                        course text NOT NULL,
-                                        CRN text NOT NULL,
-                                        start_time text NOT NULL,
-                                        end_time text NOT NULL,
-                                        term integer NOT NULL,
-                                        year integer NOT NULL,
-                                        location text NOT NULL,
-                                        instructor text NOT NULL,
-                                        FOREIGN KEY (instructor) REFERENCES instructors (id)
-                                        );"""
-    sql_create_instructors_table = """CREATE TABLE instructors (
-                                    id integer PRIMARY KEY,
-                                    first_name text NOT NULL,
-                                    middle_name text,
-                                    last_name text NOT NULL,
-                                    departments text NOT NULL
-                                );"""
-
-    create_db(db)
-    conn = create_connection(db)
-    if conn is not None:
-        # create projects table
-        create_table(conn, sql_create_time_block_table)
-
-        # create tasks table
-        create_table(conn, sql_create_instructors_table)
-    else:
-        print("Error! cannot create the database connection.")
-
-
 def create_sql_dict(time_block_dict, year=2020, quarter=1):
     sql_dict = {}
     sql_dict["CRN"] = int(time_block_dict["CRN"])
@@ -116,12 +82,64 @@ def create_sql_dict(time_block_dict, year=2020, quarter=1):
     # insert end time
     sql_dict["year"] = year
     sql_dict["quarter"] = quarter
-    # if sql_dict["building"] in ["we","We"] or sql_dict["campus"] in ["we","We"] or not sql_dict['building'] or not sql_dict['campus']:
-    #    sql_dict["in_person"] = False
-    #
-    #     sql_dict["web"] = True
 
     return sql_dict
+
+class TimeBlock:
+    def __init__(self,time_block_dict):
+        self.end_time = time_block_dict['end_time']
+        self.start_time = time_block_dict['start_time']
+        self.crn = time_block_dict['crn']
+        self.department = time_block_dict['department']
+        self.class_type = time_block_dict['class_type']
+        self.location = time_block_dict['location']
+        self.instructor = time_block_dict['instructor']
+        self.day = time_block_dict['day']
+        
+
+def write_time_block_obj_to_db(conn,time_block_obj):
+    conn.execute("INSERT INTO time_blocks VALUES (:end_time, :start_time, :crn, :department, :class_type, :location, :instructor, :day)", time_block_obj.__dict__)
+
+def main():
+    db = os.path.join(os.getcwd(), "out", "db.sqlite3")
+    sql_create_time_block_table = """CREATE TABLE time_blocks (
+                                        id integer PRIMARY KEY,
+                                        CRN text NOT NULL,
+                                        day text NOT NULL,
+                                        start_time text NOT NULL,
+                                        end_time text NOT NULL,
+                                        department text NOT NULL,
+                                        class_type text NOT NULL,
+                                        location text NOT NULL,
+                                        instructor text NOT NULL
+                                        );"""
+    sql_create_instructors_table = """CREATE TABLE instructors (
+                                    id integer PRIMARY KEY,
+                                    first_name text NOT NULL,
+                                    middle_name text,
+                                    last_name text NOT NULL
+                                );"""
+
+    create_db(db)
+    conn = create_connection(db)
+    if conn is not None:
+        # create time_block table
+        create_table(conn, sql_create_time_block_table)
+
+        # create tasks table
+        create_table(conn, sql_create_instructors_table)
+        
+        # a sample time block dictionary
+        time_block_dict = {'day': 'Tuesday', 'end_time': '3:50pm', 'start_time': '1:00pm', 'crn': '31067', 'department': 'ENGR', 'class_type': 'Remote', 'location': 'Remote', 'instructor': 'Rekha D Rao'}
+        # write the dictionary to the database
+        t1 = TimeBlock(time_block_dict)
+        write_time_block_obj_to_db(conn,t1)
+
+
+    else:
+        print("Error! cannot create the database connection.")
+
+
 
 
 if __name__ == "__main__":

@@ -62,7 +62,7 @@ def get_list_of_course_links_from_dept_page(
 
 
 def main():
-    dept_page_url = "https://www.pcc.edu/schedule/default.cfm?fa=dspTopicDetails&thisTerm=202301&topicid=GE&type=Credit"
+    dept_page_url = "https://www.pcc.edu/schedule/summer/ge/"
     link_lst = get_list_of_course_links_from_dept_page(dept_page_url)
     print(link_lst)
     return link_lst

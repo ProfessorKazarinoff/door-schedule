@@ -85,20 +85,25 @@ def create_sql_dict(time_block_dict, year=2020, quarter=1):
 
     return sql_dict
 
-class TimeBlock:
-    def __init__(self,time_block_dict):
-        self.end_time = time_block_dict['end_time']
-        self.start_time = time_block_dict['start_time']
-        self.crn = time_block_dict['crn']
-        self.department = time_block_dict['department']
-        self.class_type = time_block_dict['class_type']
-        self.location = time_block_dict['location']
-        self.instructor = time_block_dict['instructor']
-        self.day = time_block_dict['day']
-        
 
-def write_time_block_obj_to_db(conn,time_block_obj):
-    conn.execute("INSERT INTO time_blocks VALUES (:end_time, :start_time, :crn, :department, :class_type, :location, :instructor, :day)", time_block_obj.__dict__)
+class TimeBlock:
+    def __init__(self, time_block_dict):
+        self.end_time = time_block_dict["end_time"]
+        self.start_time = time_block_dict["start_time"]
+        self.crn = time_block_dict["crn"]
+        self.department = time_block_dict["department"]
+        self.class_type = time_block_dict["class_type"]
+        self.location = time_block_dict["location"]
+        self.instructor = time_block_dict["instructor"]
+        self.day = time_block_dict["day"]
+
+
+def write_time_block_obj_to_db(conn, time_block_obj):
+    conn.execute(
+        "INSERT INTO time_blocks VALUES (:end_time, :start_time, :crn, :department, :class_type, :location, :instructor, :day)",
+        time_block_obj.__dict__,
+    )
+
 
 def main():
     db = os.path.join(os.getcwd(), "out", "db.sqlite3")
@@ -128,18 +133,24 @@ def main():
 
         # create tasks table
         create_table(conn, sql_create_instructors_table)
-        
+
         # a sample time block dictionary
-        time_block_dict = {'day': 'Tuesday', 'end_time': '3:50pm', 'start_time': '1:00pm', 'crn': '31067', 'department': 'ENGR', 'class_type': 'Remote', 'location': 'Remote', 'instructor': 'Rekha D Rao'}
+        time_block_dict = {
+            "day": "Tuesday",
+            "end_time": "3:50pm",
+            "start_time": "1:00pm",
+            "crn": "31067",
+            "department": "ENGR",
+            "class_type": "Remote",
+            "location": "Remote",
+            "instructor": "Rekha D Rao",
+        }
         # write the dictionary to the database
         t1 = TimeBlock(time_block_dict)
-        write_time_block_obj_to_db(conn,t1)
-
+        write_time_block_obj_to_db(conn, t1)
 
     else:
         print("Error! cannot create the database connection.")
-
-
 
 
 if __name__ == "__main__":
